@@ -15,11 +15,10 @@ const UserLoginDataSchema = new Schema({
     },
     password : {
         type : String,
-        required : true,
         trim : true,
     }
 })
 
-const UserLoginDataModel = mongoose.model('userLoginData', UserLoginDataSchema);
+const UserLoginDataModel = mongoose.model('user-login-data', UserLoginDataSchema);
 
 module.exports = UserLoginDataModel;

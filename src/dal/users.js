@@ -15,8 +15,7 @@ const getNextId = (users) => {
 
 const getAllUsers = async () => {
     try{
-        const users = await jsonfile.readFile(file);
-        return users;
+        return jsonfile.readFile(file);
     }catch(e){
         console.error(e);
     }
@@ -42,7 +41,7 @@ const getUser = async (id) => {
         }
     }
 
-    return user;
+    return user[0];
 }
 
 const addUser = async(userData) => {
@@ -53,7 +52,7 @@ const addUser = async(userData) => {
         id,
         firstName : userData.firstName,
         lastName : userData.lastName,
-        createdDate : userData.createdDate,
+        createdDate : new Date().toDateString(),
         sessionTimeOut : userData.sessionTimeOut,
         isAdmin : false
     };

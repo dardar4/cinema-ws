@@ -1,13 +1,18 @@
 const jsonfile = require('jsonfile');
+var path = require('path');
 
-const file = '../fs/usersPermissions.json';
+const file = path.join(__dirname, '../fs/usersPermissions.json');
 
 const getAllUsersPermissions = async () => {
-    const usersPermissions = await jsonfile.readFile(file);
-    return usersPermissions;
+    try{
+        return jsonfile.readFile(file);
+    }catch(e){
+        console.error(e);
+        return [];
+    }
 }
 
-const getUserPermission = async (userId) => {
+const getUserPermissions = async (userId) => {
     let usersPermissions = await getAllUsersPermissions();
 
     if(!usersPermissions){
@@ -26,29 +31,34 @@ const getUserPermission = async (userId) => {
         }
     }
 
-    
-    return userPermission[0];
+    return userPermission[0].permissions;
 }
 
 
-const addUserPermission = async(userId, permissionArr) => {
+const addUserPermissions = async(userId, permissionArr) => {
+    if(permissionArr.length === 0){
+        return null;
+    }
+
     let usersPermissions = await getAllUsersPermissions();
 
-    const userPermission = {
+    const userPermissions = {
         userID : userId,
         permissions : permissionArr
     };
 
-    const newUsersPermissionArr = [...usersPermissions, userPermission];
+    const newUsersPermissionsArr = [...usersPermissions, userPermissions];
 
-    jsonfile.writeFile(file, newUsersPermissionArr, (err) => {
+    await jsonfile.writeFile(file, newUsersPermissionsArr, (err) => {
         if (err) {
             console.error(err) 
         }
     });
+ 
+    return userPermissions;
 }
 
-const updateUserPermission = async(userId, permissionArr) => {
+const updateUserPermissions = async(userId, permissionArr) => {
     let usersPermissions = await getAllUsersPermissions();
 
     if(!usersPermissions){
@@ -76,7 +86,7 @@ const updateUserPermission = async(userId, permissionArr) => {
     });
 }
 
-const deleteUserPermission = async(userId) => {
+const deleteUserPermissions = async(userId) => {
     let usersPermissions = await getAllUsersPermissions();
 
     if(!usersPermissions){
@@ -106,8 +116,8 @@ const deleteUserPermission = async(userId) => {
 
 module.exports = {
     getAllUsersPermissions,
-    getUserPermission,
-    addUserPermission,
-    updateUserPermission,
-    deleteUserPermission
+    getUserPermissions,
+    addUserPermissions,
+    updateUserPermissions,
+    deleteUserPermissions
 }

@@ -40,8 +40,12 @@ router.get('/api/users/:id', async(req, res) => {
 router.post('/api/users', async(req, res) => {
     try{
         const userData = req.body;
+        console.log('req.body', userData);
         const newUser = await userController.addUser(userData);
-        //console.log('router::addUser', newUser);
+
+        if(!newUser){
+            return res.json(buildResponse('error creating a new user', undefined));
+        }
         res.json(buildResponse(undefined, newUser));
     }catch(e){
         res.status(500).json(buildResponse(e, undefined));
