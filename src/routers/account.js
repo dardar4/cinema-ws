@@ -35,7 +35,6 @@ router.post('/api/account/create', async(req, res) => {
 
         const userLoginData = await accountController.createAccount(userName, newPassword);
 
-        //console.log(userLoginData);
         if(!userLoginData){
             const errMsg = 'Error creating account';
             res.json(buildResponse(errMsg, undefined));
