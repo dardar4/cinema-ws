@@ -59,15 +59,6 @@ const addUser = async(userData) => {
 
     const newUsersArr = [...users, user];
 
-
-    // jsonfile.writeFile(file, newUsersArr)
-    // .then(() => {
-    //     console.log('dal::addUser', user);
-    //     return user;
-    // }).catch((err) => {
-    //     throw new Error(`failed writing user to json. error:${err}`)  
-    // });
-
     try{
         await jsonfile.writeFile(file, newUsersArr);
         return user;
@@ -76,7 +67,7 @@ const addUser = async(userData) => {
     }
 }
 
-const updateUser = async(userData) => {
+const updateUser = async(userId, userData) => {
     let users = await getAllUsers();
 
     if(!users){
@@ -86,7 +77,7 @@ const updateUser = async(userData) => {
     }
 
     const index = users.findIndex((user) => {
-        return user.id === userData.id
+        return user.id === userId
     });
 
     if(index === -1){
@@ -95,11 +86,18 @@ const updateUser = async(userData) => {
         }
     }
 
-    users.splice(index, 1, userData);
+    const userDataToUpdate = {
+        ...users[index],
+        firstName : userData.firstName,
+        lastName : userData.lastName,
+        sessionTimeOut : userData.sessionTimeOut
+    }
+
+    users.splice(index, 1, userDataToUpdate);
 
     try{
         await jsonfile.writeFile(file, users);
-        return userData;
+        return userDataToUpdate;
     } catch(err){
         throw new Error(`failed updating user to json. error:${err}`)  
     }

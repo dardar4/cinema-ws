@@ -79,11 +79,13 @@ const updateUserPermissions = async(userId, permissionArr) => {
 
     usersPermissions[index].permissions = permissionArr;
 
-    jsonfile.writeFile(file, usersPermissions, (err) => {
+    await jsonfile.writeFile(file, usersPermissions, (err) => {
         if (err) {
             console.error(err) 
         }
     });
+
+    return usersPermissions[index];
 }
 
 const deleteUserPermissions = async(userId) => {
@@ -95,6 +97,7 @@ const deleteUserPermissions = async(userId) => {
         }
     }
 
+    // find user permissions
     const index = usersPermissions.findIndex((userPermission) => {
         return userPermission.userID === userId
     });
@@ -105,13 +108,20 @@ const deleteUserPermissions = async(userId) => {
         }
     }
 
+    // save the deleted permissions
+    const deletedUserPermissions = usersPermissions[index];
+
+    // delete the user permissions
     usersPermissions.splice(index, 1);
 
-    jsonfile.writeFile(file, usersPermissions, (err) => {
+    // write changes to file
+    await jsonfile.writeFile(file, usersPermissions, (err) => {
         if (err) {
             console.error(err) 
         }
     });
+
+    return deletedUserPermissions;
 }
 
 module.exports = {
