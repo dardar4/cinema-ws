@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 const usersRouter = require('../routers/users');
-const loginRouter = require('../routers/login');
+const accountRouter = require('../routers/account');
 
 module.exports = async ({ expressApp }) => {
     // Parses incoming json request into an object
@@ -14,5 +14,5 @@ module.exports = async ({ expressApp }) => {
     
     // Load API routes
     expressApp.use(usersRouter);
-    expressApp.use(loginRouter);
+    expressApp.use(accountRouter);
 }

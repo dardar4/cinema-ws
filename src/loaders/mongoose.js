@@ -7,7 +7,7 @@ module.exports = () => {
         useUnifiedTopology: true,
         useNewUrlParser : true, 
         useCreateIndex : true,
-        //useFindAndModify : false
+        useFindAndModify : false
     }, () => {
         console.log('✌️ DB loaded and connected!');
     })

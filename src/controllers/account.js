@@ -1,13 +1,13 @@
-const loginDal = require('../dal/login');
+const accountDal = require('../dal/account');
 const usersDal = require('../dal/users');
 const permissionsDal = require('../dal/permissions');
 
 const checkLogin = async (userName, password) => {
-    const userLoginData = await loginDal.checkLogin(userName, password);
+    const userLoginData = await accountDal.checkLogin(userName, password);
     if(!userLoginData){
         console.warn('user name or password are incorrect');
         return null;
-    }
+    };
 
     // Get User details
     const userDetails = await usersDal.getUser(userLoginData.userID);
@@ -25,6 +25,11 @@ const checkLogin = async (userName, password) => {
     }
 };
 
+const createAccount = (userName, newPassword) => {
+    return accountDal.updateUserPassword(userName, newPassword);
+};
+
 module.exports = {
-    checkLogin
+    checkLogin,
+    createAccount
 }
