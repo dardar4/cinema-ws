@@ -1,14 +1,16 @@
 const SubscriptionAPI = require('../External API/SubscriptionAPI');
 
 
-const getAllShows = () => {
+const getAllShows = async () => {
     // Get all shows
-    return SubscriptionAPI.getShows();
+    const result = await SubscriptionAPI.getShows();
+    return result.data;
 };
 
-const addShow = (showData) => {
+const addShow = async (showData) => {
     // Create new show
-    return SubscriptionAPI.addShow(showData);
+    const result = await SubscriptionAPI.addShow(showData);
+    return result.data;
 }
 
 
