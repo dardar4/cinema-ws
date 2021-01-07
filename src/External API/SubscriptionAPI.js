@@ -10,7 +10,12 @@ const addShow = (showData) => {
     return axios.post(`${Subscription_URL}/shows`, showData);
 }
 
+const updateShow = (showID, showData) => {
+    return axios.patch(`${Subscription_URL}/shows/${showID}`, showData);
+}
+
 module.exports = {
     getShows,
-    addShow
+    addShow,
+    updateShow
 }

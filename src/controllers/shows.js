@@ -13,8 +13,15 @@ const addShow = async (showData) => {
     return result.data;
 }
 
+const updateShow = async (showID, showData) => {
+    // Update existing show
+    const result = await SubscriptionAPI.updateShow(showID, showData);
+    return result.data;
+}
+
 
 module.exports = {
     getAllShows,
-    addShow
+    addShow,
+    updateShow
 }
