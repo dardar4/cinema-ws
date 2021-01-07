@@ -48,4 +48,20 @@ router.patch('/shows/:id', async(req, res) => {
     }
 });
 
+/* Delete a user by id */
+router.delete('/shows/:id', async(req, res) => {
+    try{
+        const showID = req.params.id;
+        const deletedShow = await showsController.deleteShow(showID);
+
+        if(!deletedShow){
+            return res.json(buildResponse(`error deleting show id=${showID}`, undefined));
+        }
+        res.json(buildResponse(undefined, deletedShow));
+    }catch(e){
+        console.error(e);
+        res.status(500).json(buildResponse(e, undefined));
+    }
+});
+
 module.exports = router;

@@ -19,9 +19,16 @@ const updateShow = async (showID, showData) => {
     return result.data;
 }
 
+const deleteShow = async (showID) => {
+    // Delete existing show
+    const result = await SubscriptionAPI.deleteShow(showID);
+    return result.data;
+}
+
 
 module.exports = {
     getAllShows,
     addShow,
-    updateShow
+    updateShow,
+    deleteShow
 }

@@ -14,8 +14,13 @@ const updateShow = (showID, showData) => {
     return axios.patch(`${Subscription_URL}/shows/${showID}`, showData);
 }
 
+const deleteShow = (showID) => {
+    return axios.delete(`${Subscription_URL}/shows/${showID}`);
+}
+
 module.exports = {
     getShows,
     addShow,
-    updateShow
+    updateShow,
+    deleteShow
 }
