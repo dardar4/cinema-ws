@@ -1,14 +1,8 @@
 const express = require('express');
-const userController = require('../controllers/users')
+const userController = require('../controllers/users');
+const { buildResponse } = require('./common');
 
 const router = express.Router();
-
-const buildResponse = (error, result) => {
-    return {
-        error,
-        result
-    }
-}
 
 /* Get all users */
 router.get('/api/users', async (req, res) => {
