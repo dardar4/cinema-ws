@@ -2,11 +2,15 @@ const axios = require('axios');
 
 const Subscription_URL = 'http://localhost:8000/api';
 
-const getShows  = async () => {
-    const shows = await axios.get(`${Subscription_URL}/shows`);
-    return shows.data;
+const getShows  = () => {
+    return axios.get(`${Subscription_URL}/shows`);
+}
+
+const addShow = (showData) => {
+    return axios.post(`${Subscription_URL}/shows`, showData);
 }
 
 module.exports = {
-    getShows
+    getShows,
+    addShow
 }
