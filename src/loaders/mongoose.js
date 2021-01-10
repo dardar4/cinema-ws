@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const config = require('../config');
-const path = require('path');
 
 module.exports = () => {
     mongoose.connect(config.databaseURL + '/' + config.databaseName, {
@@ -9,6 +8,6 @@ module.exports = () => {
         useCreateIndex : true,
         useFindAndModify : false
     }, () => {
-        console.log('✌️ DB loaded and connected!');
+        console.log('✌️ Users DB loaded and connected!');
     })
 };

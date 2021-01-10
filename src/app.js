@@ -5,7 +5,7 @@ const startServer = async () => {
     const app = express();
 
     // Load required modules (like mongoose and express)
-    await require('./loaders')({ expressApp : app });
+    await require('./loaders')(app);
 
     // Set port and start the server
     app.listen(config.port, () => {
