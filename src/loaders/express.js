@@ -3,18 +3,20 @@ const cors = require('cors');
 const usersRouter = require('../routers/users');
 const accountRouter = require('../routers/account');
 const showsRouter = require('../routers/shows');
+const membersRouter = require('../routers/members');
 
-module.exports = async (app) => {
+module.exports = async ({expressApp}) => {
     // Parses incoming json request into an object
-    app.use(express.json());
+    expressApp.use(express.json());
 
     // The magic package that prevents frontend developers going nuts
     // Alternate description:
     // Enable Cross Origin Resource Sharing to all origins by default
-    app.use(cors());
+    expressApp.use(cors());
     
     // Load API routes
-    app.use(usersRouter);
-    app.use(accountRouter);
-    app.use('/api', showsRouter);
+    expressApp.use(usersRouter);
+    expressApp.use(accountRouter);
+    expressApp.use('/api', showsRouter);
+    expressApp.use('/api', membersRouter);
 }

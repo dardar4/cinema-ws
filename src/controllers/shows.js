@@ -1,4 +1,3 @@
-const SubscriptionAPI = require('../External API/SubscriptionAPI');
 const subscriptionsDal = require('../dal/subscriptions');
 
 
