@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const Subscription_URL = 'http://localhost:8000/api';
 
+/* Show API */
 const getShows = () => {
     return axios.get(`${Subscription_URL}/shows`);
 }
@@ -18,6 +19,7 @@ const deleteShow = (showID) => {
     return axios.delete(`${Subscription_URL}/shows/${showID}`);
 }
 
+/* Members API */
 const getMembers = () => {
     return axios.get(`${Subscription_URL}/members`);
 }
@@ -34,6 +36,22 @@ const deleteMember = (memberID) => {
     return axios.delete(`${Subscription_URL}/members/${memberID}`);
 }
 
+/* Show Subscription API */
+const addShowSubscription = (subscribeShowData) => {
+    return axios.post(`${Subscription_URL}/subscriptions`, subscribeShowData);
+}
+
+const getShowSubscription = (memberId) => {
+    return axios.get(`${Subscription_URL}/subscriptions/${memberId}`);
+}
+
+const updateShowSubscription = (memberId, subscribeShowData) => {
+    return axios.patch(`${Subscription_URL}/subscriptions/${memberId}`, subscribeShowData);
+}
+
+const deleteShowSubscription = (memberId) => {
+    return axios.delete(`${Subscription_URL}/subscriptions/${memberId}`);
+}
 
 module.exports = {
     getShows,
@@ -43,5 +61,9 @@ module.exports = {
     getMembers,
     addMember,
     updateMember,
-    deleteMember
+    deleteMember,
+    addShowSubscription,
+    getShowSubscription,
+    updateShowSubscription,
+    deleteShowSubscription
 }

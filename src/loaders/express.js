@@ -4,6 +4,7 @@ const usersRouter = require('../routers/users');
 const accountRouter = require('../routers/account');
 const showsRouter = require('../routers/shows');
 const membersRouter = require('../routers/members');
+const subscriptionsRouter = require('../routers/subscriptions');
 
 module.exports = async ({expressApp}) => {
     // Parses incoming json request into an object
@@ -19,4 +20,5 @@ module.exports = async ({expressApp}) => {
     expressApp.use(accountRouter);
     expressApp.use('/api', showsRouter);
     expressApp.use('/api', membersRouter);
+    expressApp.use('/api', subscriptionsRouter);
 }
