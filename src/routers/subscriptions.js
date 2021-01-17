@@ -5,6 +5,16 @@ const subscriptionsController = require('../controllers/subscriptions');
 const router = express.Router();
 
 
+router.get('/subscriptions', async(req, res) => {
+    try{
+        const subscriptions = await subscriptionsController.getSubscriptions();
+        res.json(buildResponse(undefined, subscriptions));
+    }catch(e){
+        console.error(e);
+        res.status(500).json(buildResponse(e, undefined));
+    }
+})
+
 /* Subscribe shows to member */
 router.post('/subscriptions', async(req, res) => {
     try{

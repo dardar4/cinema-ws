@@ -37,6 +37,11 @@ const deleteMember = (memberID) => {
 }
 
 /* Show Subscription API */
+
+const getSubscriptions = () => {
+    return axios.get(`${Subscription_URL}/subscriptions`);
+}
+
 const addShowSubscription = (subscribeShowData) => {
     return axios.post(`${Subscription_URL}/subscriptions`, subscribeShowData);
 }
@@ -62,6 +67,7 @@ module.exports = {
     addMember,
     updateMember,
     deleteMember,
+    getSubscriptions,
     addShowSubscription,
     getShowSubscription,
     updateShowSubscription,
