@@ -2,7 +2,7 @@ const subscriptionsDal = require('../dal/subscriptions');
 
 
 const getSubscriptions  = async () => {
-    // get all movies subscriptions from all members
+    // get all shows subscriptions from all members
     const result = await subscriptionsDal.getSubscriptions();
     return result.data;
 }

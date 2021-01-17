@@ -18,7 +18,7 @@ const getAllMembers = async () => {
         }
     }));
 
-    // Get all members moviesSubscriptions
+    // Get all members shows subscriptions
     //console.log('membersDataArr', membersDataArr[0]);
     return membersDataArr;
 };
