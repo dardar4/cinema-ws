@@ -3,24 +3,10 @@ const MemberData = require('../models/memberData');
 
 
 const getAllMembers = async () => {
-    // Get all Members
+    // Get all Members (with their shows subscriptions)
     const result = await subscriptionsDal.getMembers();
     const members = result.data;
-
-
-    const membersDataArr = await Promise.all(members.map(async (member) => {
-        try{
-            const res = await subscriptionsDal.getShowSubscription(member._id);
-            return new MemberData(member, res.data.shows);
-        }catch(err){
-            //console.error('error:', err);
-            return new MemberData(member)
-        }
-    }));
-
-    // Get all members shows subscriptions
-    //console.log('membersDataArr', membersDataArr[0]);
-    return membersDataArr;
+    return members;
 };
 
 const addMember = async (memberData) => {
@@ -40,8 +26,6 @@ const deleteMember = async (memberID) => {
     let result = await subscriptionsDal.deleteMember(memberID);
     const deletedMember = result.data;
 
-    console.log(deletedMember);
-
     if(deletedMember){
         //Need to delete the members shows subscriptions as well
         try{
@@ -50,7 +34,6 @@ const deleteMember = async (memberID) => {
         }catch(e){
             console.log('*** error ****', e);
         }
-
     }
     
     return deletedMember;
