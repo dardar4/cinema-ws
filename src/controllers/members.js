@@ -24,19 +24,7 @@ const updateMember = async (memberID, memberData) => {
 const deleteMember = async (memberID) => {
     // Delete existing Member
     let result = await subscriptionsDal.deleteMember(memberID);
-    const deletedMember = result.data;
-
-    if(deletedMember){
-        //Need to delete the members shows subscriptions as well
-        try{
-            result = await subscriptionsDal.deleteShowSubscription(memberID);
-            console.log('*** result.data ****', result.data);
-        }catch(e){
-            console.log('*** error ****', e);
-        }
-    }
-    
-    return deletedMember;
+    return result.data;
 }
 
 
