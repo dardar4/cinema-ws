@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('../config');
 
 module.exports = () => {
-    mongoose.connect(config.databaseURL + '/' + config.databaseName, {
+    mongoose.connect(config.mongoDbUrl, {
         useUnifiedTopology: true,
         useNewUrlParser : true, 
         useCreateIndex : true,
