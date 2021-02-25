@@ -5,4 +5,10 @@ const buildResponse = (error, result) => {
     }
 }
 
-module.exports = { buildResponse }
+const isValidRequest = (reqBody, allowedValuesToUpdateArr) => {
+    return Object.keys(reqBody).every((value) => {
+        return allowedValuesToUpdateArr.includes(value);
+    });
+}
+
+module.exports = { buildResponse, isValidRequest }

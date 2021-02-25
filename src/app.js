@@ -10,9 +10,9 @@ const startServer = async () => {
     // Set port and start the server
     app.listen(config.port, () => {
         console.log(`
-          ###############################################
-          🎥 Cinema server listening on port: ${config.port} 🎥
-          ###############################################
+          ######################################################
+                🎥 Cinema server listening on port: ${config.port} 🎥
+          ######################################################
         `);
     }).on('error', err => {
         console.error(err);

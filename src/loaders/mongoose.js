@@ -8,6 +8,6 @@ module.exports = () => {
         useCreateIndex : true,
         useFindAndModify : false
     }, () => {
-        console.log('✌️ Users DB loaded and connected!');
+        console.log('✌️ CinemaSubscription DB loaded and connected! ✌️');
     })
 };

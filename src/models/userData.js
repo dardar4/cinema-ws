@@ -1,6 +1,6 @@
 class UserData {
-    constructor({ id, firstName, lastName, createdDate, sessionTimeOut, isAdmin }, { permissions }, { userName } = {}){
-        this.id = id;
+    constructor({ _id, firstName, lastName, createdDate, sessionTimeOut, isAdmin }, { permissions } = {}, { userName } = {}){
+        this._id = _id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.createdDate = createdDate;
@@ -10,6 +10,5 @@ class UserData {
         this.userName = userName;
     }
 }  
-
 
 module.exports = UserData;

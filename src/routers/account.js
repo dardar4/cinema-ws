@@ -5,7 +5,7 @@ const { buildResponse } = require('./common');
 const router = express.Router();
 
 /* Get a user by id */
-router.post('/api/account/login', async(req, res) => {
+router.post('/account/login', async(req, res) => {
     try{
         const userName = req.body.userName;
         const password = req.body.password;
@@ -22,7 +22,7 @@ router.post('/api/account/login', async(req, res) => {
     }
 });
 
-router.post('/api/account/create', async(req, res) => {
+router.post('/account/create', async(req, res) => {
     try{
         const userName = req.body.userName;
         const newPassword = req.body.newPassword;

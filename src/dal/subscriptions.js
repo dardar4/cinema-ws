@@ -1,75 +1,38 @@
-const axios = require('axios');
+const SubscriptionModel = require('../models/subscription');
 
-const Subscription_URL = 'http://localhost:8000/api';
-
-/* Show API */
-const getShows = () => {
-    return axios.get(`${Subscription_URL}/shows`);
+const addSubscription = (SubscriptionData) => {
+    const newSubscription = new SubscriptionModel(SubscriptionData);
+    return newSubscription.save();
 }
 
-const addShow = (showData) => {
-    return axios.post(`${Subscription_URL}/shows`, showData);
+const getAllSubscriptions = () => {
+    return SubscriptionModel.find({});
 }
 
-const updateShow = (showID, showData) => {
-    return axios.patch(`${Subscription_URL}/shows/${showID}`, showData);
+const getSubscription = (id) => {
+    return SubscriptionModel.findOne({ memberID : id });
 }
 
-const deleteShow = (showID) => {
-    return axios.delete(`${Subscription_URL}/shows/${showID}`);
+const updateSubscription = (id, SubscriptionData) => {
+    return SubscriptionModel.findOneAndUpdate({ memberID : id }, SubscriptionData, {
+        new : true, // returns the new user
+        runValidators : true // validate the updated object
+    });
 }
 
-/* Members API */
-const getMembers = () => {
-    return axios.get(`${Subscription_URL}/members`);
+const deleteSubscription = (id) => {
+    return SubscriptionModel.findOneAndDelete({ memberID : id });
 }
 
-const addMember = (memberData) => {
-    return axios.post(`${Subscription_URL}/members`, memberData);
-}
-
-const updateMember = (memberID, memberData) => {
-    return axios.patch(`${Subscription_URL}/members/${memberID}`, memberData);
-}
-
-const deleteMember = (memberID) => {
-    return axios.delete(`${Subscription_URL}/members/${memberID}`);
-}
-
-/* Show Subscription API */
-
-const getSubscriptions = () => {
-    return axios.get(`${Subscription_URL}/subscriptions`);
-}
-
-const addShowSubscription = (subscribeShowData) => {
-    return axios.post(`${Subscription_URL}/subscriptions`, subscribeShowData);
-}
-
-const getShowSubscription = (memberId) => {
-    return axios.get(`${Subscription_URL}/subscriptions/${memberId}`);
-}
-
-const updateShowSubscription = (memberId, subscribeShowData) => {
-    return axios.patch(`${Subscription_URL}/subscriptions/${memberId}`, subscribeShowData);
-}
-
-const deleteShowSubscription = (memberId) => {
-    return axios.delete(`${Subscription_URL}/subscriptions/${memberId}`);
+const deleteAllSubscriptions = () => {
+    return SubscriptionModel.deleteMany({});
 }
 
 module.exports = {
-    getShows,
-    addShow,
-    updateShow,
-    deleteShow,
-    getMembers,
-    addMember,
-    updateMember,
-    deleteMember,
-    getSubscriptions,
-    addShowSubscription,
-    getShowSubscription,
-    updateShowSubscription,
-    deleteShowSubscription
+    addSubscription,
+    getAllSubscriptions,
+    getSubscription,
+    updateSubscription,
+    deleteSubscription,
+    deleteAllSubscriptions
 }

@@ -5,7 +5,7 @@ const { buildResponse } = require('./common');
 const router = express.Router();
 
 /* Get all users */
-router.get('/api/users', async (req, res) => {
+router.get('/users', async (req, res) => {
     try{
         const users = await userController.getAllUsers();
         res.json(buildResponse(undefined, users));
@@ -16,13 +16,13 @@ router.get('/api/users', async (req, res) => {
 });
 
 /* Get a user by id */
-router.get('/api/users/:id', async(req, res) => {
+router.get('/users/:id', async(req, res) => {
     try{
-        const userId = parseInt(req.params.id);
+        const userId = req.params.id;
         const user = await userController.getUser(userId);
         if(!user){
             const errMsg = `User with id=${userId} not found`;
-            res.json(buildResponse(errMsg, undefined));
+            return res.json(buildResponse(errMsg, undefined));
         }
         res.json(buildResponse(undefined, user));
     }catch(e){
@@ -32,7 +32,7 @@ router.get('/api/users/:id', async(req, res) => {
 });
 
 /* Create new user */
-router.post('/api/users', async(req, res) => {
+router.post('/users', async(req, res) => {
     try{
         const userData = req.body;
         const newUser = await userController.addUser(userData);
@@ -48,9 +48,9 @@ router.post('/api/users', async(req, res) => {
 });
  
 /* Update a user by id */
-router.patch('/api/users/:id', async(req, res) => {
+router.patch('/users/:id', async(req, res) => {
     try{
-        const userId = parseInt(req.params.id);
+        const userId = req.params.id;
         const userData = req.body;
         const updatedUser = await userController.updateUser(userId, userData);
 
@@ -65,9 +65,9 @@ router.patch('/api/users/:id', async(req, res) => {
 });
 
 /* Delete a user by id */
-router.delete('/api/users/:id', async(req, res) => {
+router.delete('/users/:id', async(req, res) => {
     try{
-        const userId = parseInt(req.params.id);
+        const userId = req.params.id;
         const deletedUser = await userController.deleteUser(userId);
 
         if(!deletedUser){
@@ -81,9 +81,14 @@ router.delete('/api/users/:id', async(req, res) => {
 });
 
 /* Delete all users */
-router.delete('/api/users', async(req, res) => {
+router.delete('/users', async(req, res) => {
     try{
-        await userController.deleteAllUsers();
+        let deleteAdmin = false;
+        if(req.query.deleteAdmin){
+            deleteAdmin = req.query.deleteAdmin === 'true';
+        }
+        
+        await userController.deleteAllUsers(deleteAdmin);
         res.json(buildResponse(undefined, []));
     }catch(e){
         console.error(e);
@@ -92,6 +97,3 @@ router.delete('/api/users', async(req, res) => {
 });
 
 module.exports = router;
-
-
-

@@ -1,33 +1,31 @@
 const usersDal = require('../dal/users');
-const permissionsDal = require('../dal/permissions');
-const UserLoginDataModel = require('../models/userLoginData');
+const userPermissionsDal = require('../dal/userPermissions');
+const UserLoginDataDal = require('../dal/UserLoginData');
 const UserData = require('../models/userData');
 
 const getAllUsers = async () => {
     // Get all users data
     const users = await usersDal.getAllUsers();
 
-    // for each user get it's permissions and userName
+    // For each user get it's permissions and userName
     const usersFullDataArr = await Promise.all(users.map(async (user) => {
-        // get user permissions
-        const permissions = await permissionsDal.getUserPermissions(user.id);
+        // Get user permissions
+        const userPermissions = await userPermissionsDal.getUserPermissions(user._id);
+        // Get user name
+        const userLoginData = await UserLoginDataDal.getUserLoginData(user._id);
 
-        const userLoginData = await UserLoginDataModel.findOne({
-            userID : user.id
-        })
-
-        return {
-            ...user,
-            permissions,
-            userName : userLoginData.userName
-        }
+        return new UserData(
+            user,
+            userPermissions,
+            userLoginData
+        );
     }));
 
     return usersFullDataArr;
 };
 
-const getUser = async (id) => {
-    return usersDal.getUser(id);
+const getUser = async (userID) => {
+    return usersDal.getUser(userID);
 };
 
 const addUser = async(userData) => { 
@@ -40,20 +38,15 @@ const addUser = async(userData) => {
     }
 
     // Add user permissions
-    const userPermissions = await permissionsDal.addUserPermissions(newUser.id, userData.permissions);
+    const userPermissions = await userPermissionsDal.addUserPermissions(newUser._id, userData.permissions);
 
     if(!userPermissions){
         console.error('error creating user permissions');
         return null;
     }
     
-    //Add user name to login data
-    const userLoginData = new UserLoginDataModel({
-        userID : newUser.id,
-        userName : userData.userName,
-        password : ""
-    });
-    const newUserLoginData = await userLoginData.save();
+    // Add user login data (with only user name)
+    const newUserLoginData = await UserLoginDataDal.addUserLoginData(newUser._id, userData.userName, userData.password);
 
     if(!newUserLoginData){
         console.error('error creating user login data');
@@ -67,9 +60,9 @@ const addUser = async(userData) => {
     );
 };
 
-const updateUser = async(userId, userData) => { 
+const updateUser = async(userID, userData) => { 
     // Update user data
-    const updatedUser = await usersDal.updateUser(userId, userData);
+    const updatedUser = await usersDal.updateUser(userID, userData);
 
     if(!updatedUser){
         console.error(`error updating user id=${userData.id}`);
@@ -77,7 +70,7 @@ const updateUser = async(userId, userData) => {
     }
 
     // Update user permissions
-    const updatedUserPermissions = await permissionsDal.updateUserPermissions(userId, userData.permissions);
+    const updatedUserPermissions = await userPermissionsDal.updateUserPermissions(userID, userData.permissions);
 
     if(!updatedUserPermissions){
         console.error(`error updating user id=${userData.id} permissions`);
@@ -91,30 +84,28 @@ const updateUser = async(userId, userData) => {
     );
 };
 
-const deleteUser = async(id) => { 
+const deleteUser = async(userID) => { 
     // Delete user data
-    const deletedUser = await usersDal.deleteUser(id);
+    const deletedUser = await usersDal.deleteUser(userID);
 
     if(!deletedUser){
-        console.error(`error deleting user id=${id}`);
+        console.error(`error deleting user id=${userID}`);
         return null;
     }
 
     // Delete user permissions
-    const deletedPermissions = await permissionsDal.deleteUserPermissions(id);
+    const deletedPermissions = await userPermissionsDal.deleteUserPermissions(userID);
 
     if(!deletedPermissions){
-        console.error(`error deleting user id=${id} permissions`);
+        console.error(`error deleting user id=${userID} permissions`);
         return null;
     }
 
     // Delete user login data
-    const deletedUserLoginData = await UserLoginDataModel.findOneAndDelete({
-        userID : id
-    });
+    const deletedUserLoginData = await UserLoginDataDal.deleteUserLoginData(userID);
 
     if(!deletedUserLoginData){
-        console.error(`error deleting user id=${id} login data`);
+        console.error(`error deleting user id=${userID} login data`);
         return null;
     }
 
@@ -125,8 +116,8 @@ const deleteUser = async(id) => {
     );
 };
 
-const deleteAllUsers = async() => {
-    return usersDal.deleteAllUsers();
+const deleteAllUsers = async(deleteAdmin) => {
+    return usersDal.deleteAllUsers(deleteAdmin);
 }
 
 

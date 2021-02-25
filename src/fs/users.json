@@ -1,1 +1,0 @@
-[{"id":0,"firstName":"admin","lastName":"admin","createdDate":"01-01-2020","sessionTimeOut":60,"isAdmin":true},{"id":1,"firstName":"amir","lastName":"dar","createdDate":"Sun Jan 17 2021","sessionTimeOut":1,"isAdmin":false},{"id":2,"firstName":"test","lastName":"view_create","createdDate":"Sun Jan 31 2021","sessionTimeOut":13,"isAdmin":false}]

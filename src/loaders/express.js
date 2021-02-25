@@ -16,8 +16,8 @@ module.exports = async ({expressApp}) => {
     expressApp.use(cors());
     
     // Load API routes
-    expressApp.use(usersRouter);
-    expressApp.use(accountRouter);
+    expressApp.use('/api', usersRouter);
+    expressApp.use('/api', accountRouter);
     expressApp.use('/api', showsRouter);
     expressApp.use('/api', membersRouter);
     expressApp.use('/api', subscriptionsRouter);

@@ -16,13 +16,8 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "jsonfile": "^6.1.0",
-    "mongoose": "^5.11.9",
-    "nodemon": "^2.0.6"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "*.json"
-    ]
+    "mongoose": "^5.11.15",
+    "nodemon": "^2.0.6",
+    "validator": "^13.5.2"
   }
 }

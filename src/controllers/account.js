@@ -1,6 +1,7 @@
 const accountDal = require('../dal/account');
 const usersDal = require('../dal/users');
-const permissionsDal = require('../dal/permissions');
+const userPermissionsDal = require('../dal/userPermissions');
+const UserData = require('../models/userData');
 
 const checkLogin = async (userName, password) => {
     const userLoginData = await accountDal.checkLogin(userName, password);
@@ -10,19 +11,16 @@ const checkLogin = async (userName, password) => {
     };
 
     // Get User details
-    const userDetails = await usersDal.getUser(userLoginData.userID);
+    const user = await usersDal.getUser(userLoginData.userID);
 
     // Get User permissions
-    const permissions = await permissionsDal.getUserPermissions(userLoginData.userID);
+    const userPermissions = await userPermissionsDal.getUserPermissions(userLoginData.userID);
 
-    return {
-        id : userDetails.id,
-        fullName : `${userDetails.firstName} ${userDetails.lastName}`,
-        sessionTO : userDetails.sessionTimeOut,
-        isAdmin : userDetails.isAdmin,
-        permissions,
-        userName,
-    }
+    return new UserData(
+        user,
+        userPermissions,
+        { userName }
+    );
 };
 
 const createAccount = (userName, newPassword) => {

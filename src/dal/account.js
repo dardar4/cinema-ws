@@ -1,7 +1,7 @@
 const UserLoginDataModel = require('../models/userLoginData');
 
 
-const checkLogin = async (userName, password) => {
+const checkLogin = (userName, password) => {
     try{
         return UserLoginDataModel.findOne({
             userName,
